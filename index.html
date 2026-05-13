@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Spark · A tiny daily quote app</title>
+  <meta name="description" content="A tiny daily-quote demo app built end-to-end with AI for the BluestoneApps no-code training session." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E✨%3C/text%3E%3C/svg%3E" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      background:linear-gradient(135deg,#1e3c72 0%,#2a5298 50%,#7e57c2 100%);
+      background-size:200% 200%;
+      animation:bg 18s ease infinite;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      overflow-x:hidden;
+    }
+    @keyframes bg{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    .card{
+      width:min(680px,100%);
+      background:rgba(255,255,255,.08);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:24px;
+      padding:48px 40px;
+      box-shadow:0 30px 80px rgba(0,0,0,.35);
+      text-align:center;
+    }
+    .badge{
+      display:inline-block;
+      font-size:12px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      padding:6px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.22);
+      margin-bottom:24px;
+      opacity:.9;
+    }
+    .quote{
+      font-size:clamp(22px,3.4vw,30px);
+      font-weight:600;
+      line-height:1.35;
+      min-height:5em;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition:opacity .35s ease;
+    }
+    .author{
+      margin-top:18px;
+      opacity:.8;
+      font-style:italic;
+      font-size:16px;
+    }
+    .btn{
+      margin-top:32px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:#fff;
+      color:#2a5298;
+      border:0;
+      padding:14px 28px;
+      font-size:16px;
+      font-weight:700;
+      border-radius:999px;
+      cursor:pointer;
+      box-shadow:0 10px 25px rgba(0,0,0,.25);
+      transition:transform .15s ease, box-shadow .15s ease;
+    }
+    .btn:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(0,0,0,.3)}
+    .btn:active{transform:translateY(0)}
+    .footer{
+      margin-top:28px;
+      font-size:12px;
+      opacity:.65;
+    }
+    .footer a{color:#fff}
+    .fade{opacity:0}
+  </style>
+</head>
+<body>
+  <main class="card" role="main">
+    <span class="badge">✨ Spark · Daily Quote</span>
+    <div id="quote" class="quote">Loading a spark of inspiration…</div>
+    <div id="author" class="author"></div>
+    <button id="next" class="btn" type="button" aria-label="Show another quote">
+      <span>New quote</span>
+      <span aria-hidden="true">↻</span>
+    </button>
+    <div class="footer">
+      Built end-to-end with AI · no code written by hand ·
+      <a href="https://bluestoneapps.com" target="_blank" rel="noopener">BluestoneApps</a>
+    </div>
+  </main>
+
+  <script>
+    const QUOTES = [
+      {q:"The best way to get started is to quit talking and begin doing.", a:"Walt Disney"},
+      {q:"Don't let yesterday take up too much of today.", a:"Will Rogers"},
+      {q:"It's not whether you get knocked down, it's whether you get up.", a:"Vince Lombardi"},
+      {q:"If you are working on something exciting, it will keep you motivated.", a:"Steve Jobs"},
+      {q:"Success is not final; failure is not fatal: it is the courage to continue that counts.", a:"Winston Churchill"},
+      {q:"Hardships often prepare ordinary people for an extraordinary destiny.", a:"C.S. Lewis"},
+      {q:"Believe you can and you're halfway there.", a:"Theodore Roosevelt"},
+      {q:"You miss 100% of the shots you don't take.", a:"Wayne Gretzky"},
+      {q:"Quality is not an act, it is a habit.", a:"Aristotle"},
+      {q:"The only way to do great work is to love what you do.", a:"Steve Jobs"},
+      {q:"Simplicity is the ultimate sophistication.", a:"Leonardo da Vinci"},
+      {q:"Whether you think you can or you think you can't, you're right.", a:"Henry Ford"}
+    ];
+
+    const quoteEl  = document.getElementById('quote');
+    const authorEl = document.getElementById('author');
+    const btn      = document.getElementById('next');
+
+    let last = -1;
+    function show(){
+      let i = Math.floor(Math.random() * QUOTES.length);
+      if (i === last) i = (i + 1) % QUOTES.length;
+      last = i;
+      quoteEl.classList.add('fade');
+      authorEl.classList.add('fade');
+      setTimeout(() => {
+        quoteEl.textContent  = '“' + QUOTES[i].q + '”';
+        authorEl.textContent = '— ' + QUOTES[i].a;
+        quoteEl.classList.remove('fade');
+        authorEl.classList.remove('fade');
+      }, 250);
+    }
+
+    btn.addEventListener('click', show);
+    show();
+  </script>
+</body>
+</html>
